@@ -44,7 +44,8 @@ class ChairManager(plugin: Plugin) {
         val chairUUID = dataFileManager.acquisitionStringValue(player.uniqueId.toString())
         val playerUUID = player.uniqueId.toString()
         if (chairUUID != null) {
-            player.teleport(player.location.add(0.0, 0.5, 0.0)) // 埋まらないように
+            val teleportLocation = player.location.add(0.0, 0.8, 0.0)
+            player.teleport(teleportLocation) // 埋まらないように
             val chair = Bukkit.getEntity(UUID.fromString(chairUUID)) ?: return
             chair.remove()
             dataFileManager.setValue(playerUUID, null)
