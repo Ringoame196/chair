@@ -37,18 +37,18 @@ class ChairManager(plugin: Plugin) {
         val chair = summonArmorStand(location) ?: return
         val playerUUID = player.uniqueId.toString()
         val chairUUID = chair.uniqueId.toString()
-        chair.addPassenger(player)
-        dataFileManager.setValue(playerUUID, chairUUID)
+        chair.addPassenger(player) // 召喚した防具立ての上に座らせる
+        dataFileManager.setValue(playerUUID, chairUUID) // プレイヤーが座っている防具立てを保存する
     }
     fun getOff(player: Player) {
-        val chairUUID = dataFileManager.acquisitionStringValue(player.uniqueId.toString())
         val playerUUID = player.uniqueId.toString()
+        val chairUUID = dataFileManager.acquisitionStringValue(playerUUID) // プレイヤーが座っている防具立てを取得する
         if (chairUUID != null) {
             val teleportLocation = player.location.add(0.0, 0.8, 0.0)
-            player.teleport(teleportLocation) // 埋まらないように
+            player.teleport(teleportLocation) // 埋まらないようにテレポート
             val chair = Bukkit.getEntity(UUID.fromString(chairUUID)) ?: return
-            chair.remove()
-            dataFileManager.setValue(playerUUID, null)
+            chair.remove() // 防具立てを切るする
+            dataFileManager.setValue(playerUUID, null) // データを削除する
         }
     }
 }

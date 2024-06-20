@@ -1,2 +1,2 @@
-chairBlocks:
+chairBlocks: # 座ることができるブロック一覧
   - SMOOTH_STONE_SLAB
