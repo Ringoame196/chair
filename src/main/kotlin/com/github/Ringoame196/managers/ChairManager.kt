@@ -13,7 +13,7 @@ import java.util.UUID
 class ChairManager(plugin: Plugin) {
     private val dataFile = File(plugin.dataFolder, "data.yml")
     private val dataFileManager = YmlFileManager(dataFile)
-    fun canSit(chairBlock: Block): Boolean {
+    fun isCanSit(chairBlock: Block): Boolean {
         val location = chairBlock.location.clone()
         val upperBlock = location.add(0.0, 1.0, 0.0).block
         return upperBlock.type == Material.AIR
@@ -35,16 +35,19 @@ class ChairManager(plugin: Plugin) {
     fun sit(chairBlock: Block, player: Player) {
         val location = chairBlock.location.clone()
         val chair = summonArmorStand(location) ?: return
+        val playerUUID = player.uniqueId.toString()
+        val chairUUID = chair.uniqueId.toString()
         chair.addPassenger(player)
-        dataFileManager.setValue(player.uniqueId.toString(), chair.uniqueId.toString())
+        dataFileManager.setValue(playerUUID, chairUUID)
     }
     fun getOff(player: Player) {
         val chairUUID = dataFileManager.acquisitionStringValue(player.uniqueId.toString())
+        val playerUUID = player.uniqueId.toString()
         if (chairUUID != null) {
             player.teleport(player.location.add(0.0, 0.5, 0.0)) // 埋まらないように
             val chair = Bukkit.getEntity(UUID.fromString(chairUUID)) ?: return
             chair.remove()
-            dataFileManager.setValue(player.uniqueId.toString(), null)
+            dataFileManager.setValue(playerUUID, null)
         }
     }
 }

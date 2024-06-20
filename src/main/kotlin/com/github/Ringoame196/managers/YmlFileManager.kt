@@ -7,10 +7,6 @@ class YmlFileManager(private val file: File) {
     private fun acquisitionYml(): YamlConfiguration {
         return YamlConfiguration.loadConfiguration(file)
     }
-    fun acquisitionIntValue(key: String): Int {
-        val ymlFile = acquisitionYml()
-        return ymlFile.getInt(key)
-    }
     fun acquisitionStringValue(key: String): String? {
         val ymlFile = acquisitionYml()
         return ymlFile.getString(key)
